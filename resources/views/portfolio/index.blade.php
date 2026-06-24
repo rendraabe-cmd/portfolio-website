@@ -128,12 +128,97 @@
 
     </section>
 
-    <!-- PLACEHOLDER SECTIONS (akan diisi nanti) -->
-    <section id="about" class="py-20">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4">About Me Coming Soon...</h2>
+    <!-- ABOUT ME SECTION -->
+<section id="about" class="py-20 md:py-32">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <p class="text-indigo-600 dark:text-indigo-400 font-semibold mb-2 tracking-widest text-sm">
+                GET TO KNOW ME
+            </p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                About <span class="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">Me</span>
+            </h2>
+            <div class="w-20 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto rounded-full"></div>
         </div>
-    </section>
+
+        <!-- Content Grid -->
+        <div class="grid md:grid-cols-5 gap-12 items-center">
+
+            <!-- Left: Story (3 cols) -->
+            <div class="md:col-span-3 space-y-5">
+                <h3 class="text-2xl md:text-3xl font-bold">
+                    Backend Developer who ships to production 🚀
+                </h3>
+
+                <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    I'm a self-driven Fullstack Web Developer based in
+                    <span class="font-semibold text-indigo-600 dark:text-indigo-400">Indonesia</span>,
+                    passionate about building scalable web applications with PHP and Laravel ecosystem.
+                </p>
+
+                <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    My focus is on creating <span class="font-semibold">clean, maintainable code</span>
+                    that works reliably in production — not just on localhost. I've deployed REST APIs to cloud platforms
+                    with Docker, configured SSL databases, and built end-to-end authentication systems.
+                </p>
+
+                <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    Currently looking for <span class="font-semibold text-indigo-600 dark:text-indigo-400">remote opportunities</span>
+                    where I can contribute to meaningful projects and grow as a developer alongside talented teams worldwide.
+                </p>
+
+                <!-- Quick Info Tags -->
+                <div class="flex flex-wrap gap-3 pt-4">
+                    <span class="px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-lg text-sm font-medium flex items-center gap-2">
+                        📍 Indonesia (GMT+7)
+                    </span>
+                    <span class="px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-lg text-sm font-medium flex items-center gap-2">
+                        🌐 English & Bahasa
+                    </span>
+                    <span class="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg text-sm font-medium flex items-center gap-2">
+                        💼 Open to Remote
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right: Stats Cards (2 cols) -->
+            <div class="md:col-span-2 grid grid-cols-2 gap-4">
+
+                <!-- Stat 1 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="text-4xl mb-2">💻</div>
+                    <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">3+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Years Coding</div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="text-4xl mb-2">🚀</div>
+                    <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">5+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Projects Built</div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="text-4xl mb-2">⚡</div>
+                    <div class="text-3xl font-bold text-pink-600 dark:text-pink-400">9+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">API Endpoints Live</div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <div class="text-4xl mb-2">☁️</div>
+                    <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">100%</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mt-1">Cloud Deployed</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
 
     <section id="skills" class="py-20 bg-gray-50 dark:bg-gray-800">
         <div class="max-w-4xl mx-auto px-6 text-center">
