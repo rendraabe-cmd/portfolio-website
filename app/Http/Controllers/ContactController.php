@@ -11,20 +11,6 @@ class ContactController extends Controller
 {
     public function send(Request $request)
     {
-        // LOG 1 - Pastikan method dipanggil
-        Log::info('=== CONTACT FORM START ===');
-        Log::info('Request data: ', $request->all());
-
-        // LOG 2 - Cek konfigurasi mail
-        Log::info('Mail config check:', [
-            'mailer'   => config('mail.default'),
-            'host'     => config('mail.mailers.smtp.host'),
-            'port'     => config('mail.mailers.smtp.port'),
-            'username' => config('mail.mailers.smtp.username'),
-            'from'     => config('mail.from.address'),
-            'password_length' => strlen(config('mail.mailers.smtp.password') ?? ''),
-        ]);
-
         try {
             // Validasi input
             $validated = $request->validate([
@@ -36,26 +22,39 @@ class ContactController extends Controller
                 'message.min' => 'Message must be at least 10 characters.',
             ]);
 
-            Log::info('Validation passed');
-
             // Kirim email
             Mail::to(config('mail.from.address'))->send(new ContactMessage($validated));
-
-            Log::info('=== EMAIL SENT SUCCESSFULLY ===');
 
             return back()->with('success', '✅ Thanks for your message! I\'ll get back to you within 24 hours.');
 
         } catch (\Exception $e) {
-            // LOG ERROR DETAIL
-            Log::error('=== CONTACT FORM ERROR ===');
-            Log::error('Error message: ' . $e->getMessage());
-            Log::error('Error class: ' . get_class($e));
-            Log::error('Error file: ' . $e->getFile() . ':' . $e->getLine());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
+            // DEBUG MODE: Tampilkan error langsung di browser
+            $debugInfo = [
+                'ERROR_MESSAGE' => $e->getMessage(),
+                'ERROR_CLASS'   => get_class($e),
+                'ERROR_FILE'    => $e->getFile() . ':' . $e->getLine(),
+                'MAIL_HOST'     => config('mail.mailers.smtp.host'),
+                'MAIL_PORT'     => config('mail.mailers.smtp.port'),
+                'MAIL_USERNAME' => config('mail.mailers.smtp.username'),
+                'MAIL_PASSWORD_LENGTH' => strlen(config('mail.mailers.smtp.password') ?? ''),
+                'MAIL_ENCRYPTION' => config('mail.mailers.smtp.encryption'),
+                'MAIL_FROM'     => config('mail.from.address'),
+            ];
+
+            Log::error('Contact form error: ' . json_encode($debugInfo));
+
+            // Tampilkan error langsung di browser (sementara untuk debug)
+            $errorMessage = "<pre style='background:#fee; padding:20px; border:2px solid red; font-family:monospace;'>";
+            $errorMessage .= "<strong>🔴 DEBUG ERROR DETAILS:</strong>\n\n";
+            foreach ($debugInfo as $key => $value) {
+                $errorMessage .= "<strong>$key:</strong> $value\n";
+            }
+            $errorMessage .= "\n<strong>STACK TRACE:</strong>\n" . $e->getTraceAsString();
+            $errorMessage .= "</pre>";
 
             return back()
                 ->withInput()
-                ->with('error', '❌ Failed to send message. Please email me directly at rendra.abe@gmail.com');
+                ->with('error', $errorMessage);
         }
     }
 }
