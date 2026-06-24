@@ -474,6 +474,7 @@
 </section>
 
     <!-- CONTACT SECTION -->
+    <!-- CONTACT SECTION -->
 <section id="contact" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-950/50">
     <div class="max-w-6xl mx-auto px-6">
 
@@ -572,7 +573,184 @@
                         Fill out the form below and I'll get back to you within 24 hours.
                     </p>
 
-                    <form action="#" method="POST" class="space-y-5">
+                    <!-- Flash Messages -->
+                    @if(session('success'))
+                        <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-3">
+                            <svg class="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-green-800 dark:text-green-300 font-medium text-sm">{{ session('success') }}</p>
+                        </div>
+                    @endif
+
+                    @if(session('error'))
+                        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
+                            <svg class="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-red-800 dark:text-red-300 font-medium text-sm">{{ session('error') }}</p>
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
+                            <p class="font-semibold text-red-800 dark:text-red-300 text-sm mb-2">Please fix these errors:</p>
+                            <ul class="list-disc list-inside text-red-700 dark:text-red-400 text-sm space-y-1">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('contact.send') }}" method="POST" class="space-y-5">
+                        @csrf
+
+                        <!-- Name + Email Row -->
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <!-- Name -->
+                            <div>
+                                <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                    Your Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="name" name="name" required
+                                    value="{{ old('name') }}"
+                                    placeholder="John Doe"
+                                    class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-gray-900 dark:text-white">
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                    Your Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" required
+                                    value="{{ old('email') }}"
+                                    placeholder="john@example.com"
+                                    class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-gray-900 dark:text-white">
+                            </div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div>
+                            <label for="subject" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                Subject <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="subject" name="subject" required
+                                value="{{ old('subject') }}"
+                                placeholder="Project inquiry, job opportunity, etc."
+                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-gray-900 dark:text-white">
+                        </div>
+
+                        <!-- Message -->
+                        <div>
+                            <label for="message" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                Message <span class="text-red-500">*</span>
+                            </label>
+                            <textarea id="message" name="message" rows="5" required
+                                placeholder="Tell me about your project or opportunity..."
+                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-gray-900 dark:text-white resize-none">{{ old('message') }}</textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                            class="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+        <!-- Content Grid -->
+        <div class="grid md:grid-cols-5 gap-8">
+
+            <!-- LEFT: Contact Info Cards (2 cols) -->
+            <div class="md:col-span-2 space-y-4">
+
+                <!-- Email Card -->
+                <a href="mailto:rendra.abe@gmail.com"
+                    class="block bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all group">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Email</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">rendra.abe@gmail.com</p>
+                            <p class="text-indigo-600 dark:text-indigo-400 text-xs mt-2 font-medium">Click to send →</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- GitHub Card -->
+                <a href="https://github.com/rendraabe-cmd" target="_blank"
+                    class="block bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all group">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">GitHub</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">@rendraabe-cmd</p>
+                            <p class="text-indigo-600 dark:text-indigo-400 text-xs mt-2 font-medium">View profile →</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Location Card -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Location</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Indonesia 🇮🇩</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">GMT+7 (UTC+7)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Availability Card -->
+                <div class="bg-gradient-to-br from-green-500 to-emerald-600 p-6 rounded-2xl shadow-lg text-white">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                        </span>
+                        <h3 class="font-bold text-lg">Currently Available</h3>
+                    </div>
+                    <p class="text-green-50 text-sm">
+                        Open for remote opportunities, freelance projects, and collaborations worldwide.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: Contact Form (3 cols) -->
+            <div class="md:col-span-3">
+                <div class="bg-white dark:bg-gray-800 p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+                    <h3 class="text-2xl font-bold mb-2">Send Me a Message</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm">
+                        Fill out the form below and I'll get back to you within 24 hours.
+                    </p>
+
+                    <form action="{{ route('contact.send') }}" method="POST" class="space-y-5">
                         @csrf
 
                         <!-- Name + Email Row -->
