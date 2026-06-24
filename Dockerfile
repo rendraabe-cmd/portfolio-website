@@ -32,22 +32,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy composer files first
-COPY composer.json composer.lock ./
+# Copy SEMUA file project dulu (PENTING!)
+COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
-# Copy package.json untuk npm
-COPY package.json package-lock.json ./
-
-# Install npm dependencies dan build assets
+# Install npm dependencies dan build assets (sekarang file resources/ sudah ada)
 RUN npm ci && npm run build
 
-# Copy semua file project
-COPY . .
-
-# Run composer scripts setelah semua file ada
+# Run composer scripts setelah semua siap
 RUN composer run-script post-autoload-dump --no-dev --ignore-platform-reqs || true
 
 # Set permissions
